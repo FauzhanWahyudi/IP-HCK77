@@ -1,0 +1,12 @@
+{
+  "name": "ip-hck77",
+  "version": "1.0.0",
+  "description": "PlotAlchemy is a narrative recommendation tool designed for manga and novel creators",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
