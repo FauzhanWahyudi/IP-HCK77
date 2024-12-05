@@ -1,20 +1,21 @@
 /** @type {import('tailwindcss').Config} */
-const flowbite = require("flowbite-react/tailwind");
+import daisyui from "daisyui";
+
 export default {
-  content: ["./src/**/*.{js,jsx,ts,tsx}", flowbite.content()],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        primary: "#FF7300", // Orange
-        secondary: "#FFD700", // Gold
-        background: "#3E2723", // Dark Brown
-        text: "#FFFACD", // Light Yellow
-        accent: "#FF4500", // Red
-        orange: {
-          custom: "#FF7300", // Adds `bg-orange-custom`
-        },
+        // primary: "#DC851F",
+        // secondary: "#FFA737",
+        // third: "#7E5920",
+        // background: "#343330",
+        // text: "#FFFACD",
       },
     },
   },
-  plugins: [flowbite.plugin()],
+  plugins: [daisyui],
+  daisyui: {
+    themes: ["coffee"],
+  },
 };

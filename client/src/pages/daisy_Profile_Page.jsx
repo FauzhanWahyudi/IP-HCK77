@@ -1,24 +1,23 @@
-import { Button, Card, Label, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchProfile } from "../features/profile/profileSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { serverInstance } from "../helpers/axiosInstance";
 import { fetchMyCauldron } from "../features/myCauldron/myCauldronSlice";
+import Swal from "sweetalert2";
 
 export default function ProfilePage() {
   const [fullName, setFullName] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
   const [cauldronName, setCauldronName] = useState("");
   const myCauldronsRedux = useSelector(
-    (state) => state.myCauldronReducer.value
+    (state) => state.myCauldronReducer.value,
   );
   const profileRedux = useSelector((state) => state.profileReducer.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const updateCauldronProfile = async () => {
     await serverInstance.put(
       "/profile",
       {
@@ -29,7 +28,7 @@ export default function ProfilePage() {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
-      }
+      },
     );
     await serverInstance.put(
       `/cauldrons/${myCauldronsRedux[0]?.id}`,
@@ -40,9 +39,29 @@ export default function ProfilePage() {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
-      }
+      },
     );
+    dispatch(fetchProfile());
+    dispatch(fetchMyCauldron());
     navigate("/user/my-cauldron");
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`,
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        await updateCauldronProfile();
+        Swal.fire("Saved!", "", "success");
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
+      }
+    });
   };
 
   useEffect(() => {
@@ -57,82 +76,84 @@ export default function ProfilePage() {
   }, [profileRedux]);
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700">
-      <div className="max-w-lg w-full">
-        <Card className="bg-gray-800 text-white shadow-lg border border-gray-600">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+    <div className="my-4 flex items-center justify-center bg-base-100">
+      <div className="card w-full max-w-lg bg-base-300 text-primary shadow-lg">
+        <div className="card-body">
+          <form
+            onSubmit={(e) => {
+              handleSubmit(e);
+            }}
+            className="flex flex-col gap-2"
+          >
             <div className="flex justify-center">
               <img
-                className="rounded-full border-4 border-yellow-500 w-24 h-24"
-                width={"200px"}
-                height={"200px"}
                 src={profilePicture}
                 alt="Profile"
+                className="h-24 w-24 rounded-full border-4 border-yellow-500 object-cover"
               />
             </div>
 
             <div>
-              <Label htmlFor="fullName" className="text-yellow-500">
+              <label htmlFor="fullName" className="label text-yellow-400">
                 Full Name
-              </Label>
-              <TextInput
+              </label>
+              <input
+                type="text"
                 id="fullName"
                 value={fullName}
-                onChange={(event) => setFullName(event.target.value)}
-                className="mt-2"
+                onChange={(e) => setFullName(e.target.value)}
+                className="input input-bordered w-full"
                 placeholder="Enter your full name"
               />
             </div>
 
             <div>
-              <Label htmlFor="profilePicture" className="text-yellow-500">
+              <label htmlFor="profilePicture" className="label text-yellow-400">
                 Profile Picture URL
-              </Label>
-              <TextInput
+              </label>
+              <input
+                type="text"
                 id="profilePicture"
                 value={profilePicture}
-                onChange={(event) => setProfilePicture(event.target.value)}
-                className="mt-2"
+                onChange={(e) => setProfilePicture(e.target.value)}
+                className="input input-bordered w-full"
                 placeholder="Enter your profile picture URL"
               />
-              <small className="text-gray-400">
+              <small className="text-secondary">
                 Please input your new profile picture URL.
               </small>
             </div>
 
             <div>
-              <Label htmlFor="cauldronName" className="text-yellow-500">
+              <label htmlFor="cauldronName" className="label text-yellow-400">
                 Cauldron Name
-              </Label>
-              <TextInput
+              </label>
+              <input
+                type="text"
                 id="cauldronName"
                 value={cauldronName}
-                onChange={(event) => setCauldronName(event.target.value)}
-                className="mt-2"
+                onChange={(e) => setCauldronName(e.target.value)}
+                className="input input-bordered w-full"
                 placeholder="Enter your cauldron's name"
               />
             </div>
 
-            <div className="flex justify-center gap-4 mt-2">
-              <Button
+            <div className="mt-2 flex justify-center gap-4">
+              <button
                 type="submit"
-                style={{ backgroundColor: "#FFA400" }}
-                className="bg-yellow-500 hover:bg-yellow-400 text-white"
-                onMouseOver={(e) =>
-                  (e.target.style.backgroundColor = "#FB8C00")
-                }
-                onMouseOut={(e) => (e.target.style.backgroundColor = "#FFA726")}
+                className="btn bg-yellow-500 text-gray-900 hover:bg-yellow-600"
               >
                 Edit Profile
-              </Button>
-              <Link to="/">
-                <Button className="bg-red-600 hover:bg-red-500 text-white">
-                  Cancel
-                </Button>
+              </button>
+              <Link
+                to="/"
+                className="btn bg-red-600 text-white hover:bg-red-700"
+              >
+                Cancel
               </Link>
             </div>
           </form>
-        </Card>
+        </div>
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
 "use client";
-import { Button, Card } from "flowbite-react";
 import { useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { FaGithub } from "react-icons/fa"; // Import icons for Google and GitHub
+import { FaGithub } from "react-icons/fa"; // GitHub Icon
 import Swal from "sweetalert2";
+// import CustomGoogleButton from "../components/google_sign_button";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export default function LoginPage() {
   const loginGitHub = () => {
     window.location.assign(
       "https://github.com/login/oauth/authorize?client_id=" +
-        import.meta.env.VITE_GITHUB_Client_ID
+        import.meta.env.VITE_GITHUB_Client_ID,
     );
   };
 
@@ -22,20 +22,17 @@ export default function LoginPage() {
   };
 
   const loginGoogle = () => {
-    // Initialize the Google Sign-In button
     window.google.accounts.id.initialize({
       client_id: import.meta.env.VITE_Google_OAuth_Client_ID,
       callback: async (response) => {
-        console.log("Encoded JWT ID token: " + response.credential);
-
         const { data } = await axios.post(
           "https://api.fauzhanwahyudi.com/auth/google",
           {
             googleToken: response.credential,
-          }
+          },
         );
         localStorage.setItem("access_token", data.access_token);
-        navigate("/"); // Redirect to the home page or any other page after login
+        navigate("/"); // Redirect after login
         Swal.fire({
           icon: "success",
           title: "Login Success",
@@ -46,7 +43,7 @@ export default function LoginPage() {
 
     window.google.accounts.id.renderButton(
       document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large" }
+      { theme: "", size: "large" },
     );
     window.google.accounts.id.prompt(); // Optional prompt for One Tap dialog
   };
@@ -57,33 +54,37 @@ export default function LoginPage() {
   }, []);
 
   return (
-    <div className="h-screen flex justify-center items-center bg-orange-500">
-      <Card className="max-w-md p-6 space-y-6 shadow-md">
-        <h1 className="text-center text-xl font-bold mb-4">
-          Welcome Back! Please Log In
-        </h1>
-        {/* Google Login Button */}
-        <div id="buttonDiv" className="w-full"></div>
+    <div className="flex h-screen items-center justify-center bg-base-100">
+      <div className="card w-full max-w-md bg-base-200 shadow-lg">
+        <div className="card-body">
+          <h1 className="text-center text-xl font-bold text-primary">
+            Welcome Back! Please Log In
+          </h1>
 
-        {/* GitHub Login Button with Icon */}
-        <Button
-          onClick={loginGitHub}
-          className="w-full flex justify-center items-center gap-2 bg-gray-800 text-white hover:bg-gray-900"
-        >
-          <FaGithub size={20} />
-          Login with GitHub
-        </Button>
+          {/* Google Login Button */}
+          <button className="btn btn-outline bg-white hover:bg-white">
+            <div id="buttonDiv" className="bg-base-100"></div>
+          </button>
+          {/* <CustomGoogleButton /> */}
 
-        {/* Cancel Button */}
-        <Link to="/">
-          <Button
-            className="w-full bg-red-600 hover:bg-red-800 text-white"
-            style={{ marginTop: "1rem" }}
+          {/* GitHub Login Button */}
+          <button
+            onClick={loginGitHub}
+            className="btn flex w-full items-center justify-center gap-2 bg-gray-800 text-white hover:bg-gray-900"
+          >
+            <FaGithub size={20} />
+            Login with GitHub
+          </button>
+
+          {/* Cancel Button */}
+          <Link
+            to="/"
+            className="btn mt-4 bg-red-600 text-white hover:bg-red-800"
           >
             Cancel
-          </Button>
-        </Link>
-      </Card>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
