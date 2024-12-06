@@ -12,7 +12,7 @@ export default function NavigationBar() {
             <img
               src="logo.jpg"
               alt="Logo"
-              className="w-8 h-8 rounded-full border-2 border-secondary"
+              className="h-8 w-8 rounded-full border-2 border-secondary"
             />
             <span className="ml-2 text-lg font-bold text-primary">
               PlotAlchemy
@@ -45,12 +45,13 @@ export default function NavigationBar() {
               </Link>
             </li>
             <li>
-              <a
-                href="#footer"
+              <Link
+                target="_blank"
+                to="https://github.com/FauzhanWahyudi/"
                 className="text-base-content hover:text-secondary"
               >
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -60,25 +61,33 @@ export default function NavigationBar() {
           {localStorage.getItem("access_token") ? (
             <details className="dropdown">
               <summary className="btn btn-circle m-1 border-none">
-                <img src={profileRedux.profilePicture} alt="" className="w-9 h-8 rounded-full object-cover"/>
+                <img
+                  src={profileRedux.profilePicture}
+                  alt=""
+                  className="h-8 w-9 rounded-full object-cover"
+                />
               </summary>
-              <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] right-2 w-auto p-2 shadow">
-                  <li><Link to={"#"} className="font-bold text-info btn-disabled">{profileRedux.fullName}</Link></li>
-                  <li>
-                      <Link
-                        className="text-base-content hover:text-secondary"
-                        to="/user/profile"
-                      >
-                        Profile
-                      </Link>
-                  </li>
-                  <li>            
-                        <Link className="text-error  hover:text-red-60git0" to="/logout">
-                          Logout
-                        </Link>
-                  </li>
-                </ul>
-                </details>
+              <ul className="menu dropdown-content right-2 z-[1] w-auto rounded-box bg-base-100 p-2 shadow">
+                <li>
+                  <Link to={"#"} className="btn-disabled font-bold text-info">
+                    {profileRedux.fullName}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="text-base-content hover:text-secondary"
+                    to="/user/profile"
+                  >
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link className="text-error hover:text-red-600" to="/logout">
+                    Logout
+                  </Link>
+                </li>
+              </ul>
+            </details>
           ) : (
             <Link className="btn btn-ghost" to="/login/google">
               Sign In

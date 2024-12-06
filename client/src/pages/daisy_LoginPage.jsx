@@ -37,6 +37,12 @@ export default function LoginPage() {
           icon: "success",
           title: "Login Success",
           timer: 2000,
+          showConfirmButton: false,
+          customClass: {
+            popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+            title: "text-primary font-bold", // Title color
+          },
+          buttonsStyling: false, // Use your own button styles
         });
       },
     });

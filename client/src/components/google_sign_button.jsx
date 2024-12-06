@@ -16,7 +16,7 @@ const CustomGoogleButton = () => {
       // Send the Google token to your backend for authentication
       const { data } = await axios.post(
         "https://api.fauzhanwahyudi.com/auth/google",
-        { googleToken: credential }
+        { googleToken: credential },
       );
       // Save the access token to localStorage
       localStorage.setItem("access_token", data.access_token);
@@ -27,6 +27,12 @@ const CustomGoogleButton = () => {
         icon: "success",
         title: "Login Success",
         timer: 2000,
+        showConfirmButton: false,
+        customClass: {
+          popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+          title: "text-primary font-bold", // Title color
+        },
+        buttonsStyling: false, // Use your own button styles
       });
     } catch (error) {
       console.error("Login error:", error);
@@ -34,6 +40,11 @@ const CustomGoogleButton = () => {
         icon: "error",
         title: "Login Failed",
         text: "An error occurred during login.",
+        customClass: {
+          popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+          title: "text-primary font-bold", // Title color
+        },
+        buttonsStyling: false, // Use your own button styles
       });
     }
   };
@@ -50,7 +61,7 @@ const CustomGoogleButton = () => {
     <div className="custom-google-button">
       <button
         onClick={() => login()} // Trigger Google login when the button is clicked
-        className="btn bg-primary text-white hover:text-primary w-full"
+        className="btn w-full bg-primary text-white hover:text-primary"
       >
         Sign In with Google
       </button>

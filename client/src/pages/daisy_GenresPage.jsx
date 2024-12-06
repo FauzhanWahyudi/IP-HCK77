@@ -23,7 +23,7 @@ export default function GenresPage() {
   }, [dispatch]);
 
   return (
-    <div className="my-4 flex items-center justify-center bg-base-100">
+    <div className="my-4 flex min-h-[70vh] items-center justify-center bg-base-100">
       <div className="w-full max-w-4xl rounded-lg bg-base-300 p-2 text-yellow-400 shadow-lg">
         {genresRedux && genresRedux.length > 0 ? (
           <div className="overflow-x-auto">

@@ -53,13 +53,38 @@ export default function ProfilePage() {
       showDenyButton: true,
       confirmButtonText: "Save",
       denyButtonText: `Don't save`,
+      customClass: {
+        popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+        title: "text-primary font-bold", // Title color
+        denyButton: "btn btn-danger",
+        confirmButton: "btn btn-primary mx-2",
+      },
+      buttonsStyling: false, // Use your own button styles
     }).then(async (result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         await updateCauldronProfile();
-        Swal.fire("Saved!", "", "success");
+        Swal.fire({
+          title: "Saved!",
+          icon: "success",
+          timer: 1000,
+          showConfirmButton: false,
+          customClass: {
+            popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+            title: "text-primary font-bold", // Title color
+          },
+        });
       } else if (result.isDenied) {
-        Swal.fire("Changes are not saved", "", "info");
+        Swal.fire({
+          title: "Changes are not saved",
+          icon: "warning",
+          timer: 1000,
+          showConfirmButton: false,
+          customClass: {
+            popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+            title: "text-primary font-bold", // Title color
+          },
+        });
       }
     });
   };
@@ -77,7 +102,7 @@ export default function ProfilePage() {
 
   return (
     <div className="my-4 flex items-center justify-center bg-base-100">
-      <div className="card w-full max-w-lg bg-base-300 text-primary shadow-lg">
+      <div className="card w-full max-w-3xl bg-base-300 text-primary shadow-lg">
         <div className="card-body">
           <form
             onSubmit={(e) => {
@@ -111,17 +136,28 @@ export default function ProfilePage() {
               <label htmlFor="profilePicture" className="label text-yellow-400">
                 Profile Picture URL
               </label>
-              <input
-                type="text"
-                id="profilePicture"
-                value={profilePicture}
-                onChange={(e) => setProfilePicture(e.target.value)}
-                className="input input-bordered w-full"
-                placeholder="Enter your profile picture URL"
-              />
-              <small className="text-secondary">
-                Please input your new profile picture URL.
-              </small>
+              <div className="flex w-full justify-between gap-1">
+                <input
+                  type="text"
+                  id="profilePicture"
+                  value={profilePicture}
+                  onChange={(e) => setProfilePicture(e.target.value)}
+                  className="input input-bordered w-7/12"
+                  placeholder="Enter your profile picture URL"
+                />
+                <input
+                  type="file"
+                  className="file-input file-input-bordered file-input-primary w-5/12 max-w-xs"
+                />
+              </div>
+              <div className="container flex justify-between">
+                <small className="text-secondary">
+                  Please input your new profile picture URL.
+                </small>
+                <small className="text-secondary">
+                  Or upload your local picture.
+                </small>
+              </div>
             </div>
 
             <div>
@@ -141,13 +177,13 @@ export default function ProfilePage() {
             <div className="mt-2 flex justify-center gap-4">
               <button
                 type="submit"
-                className="btn bg-yellow-500 text-gray-900 hover:bg-yellow-600"
+                className="btn btn-outline btn-primary text-primary-content"
               >
                 Edit Profile
               </button>
               <Link
                 to="/"
-                className="btn bg-red-600 text-white hover:bg-red-700"
+                className="btn-danger text-danger btn hover:bg-red-500 hover:text-black"
               >
                 Cancel
               </Link>

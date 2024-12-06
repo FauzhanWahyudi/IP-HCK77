@@ -35,13 +35,19 @@ export const postPotion =
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
-        }
+        },
       );
       console.log(data);
       Swal.fire({
         icon: "success",
         title: "Your potion is saved",
         timer: 2000,
+        showConfirmButton: false,
+        customClass: {
+          popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+          title: "text-primary font-bold", // Title color
+        },
+        buttonsStyling: false, // Use your own button styles
       });
       dispatch(fetchMyCauldron());
     } catch (error) {
@@ -50,6 +56,11 @@ export const postPotion =
         icon: "error",
         title: "Oops...",
         text: error?.response?.data?.message,
+        customClass: {
+          popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+          title: "text-danger font-bold", // Title color
+        },
+        buttonsStyling: false, // Use your own button styles
       });
     }
   };
@@ -67,13 +78,19 @@ export const updatePotion = (potion) => async (dispatch) => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
-      }
+      },
     );
     console.log("🚀 ~ updatePotion ~ data:", data);
     Swal.fire({
       icon: "success",
       title: "Your potion is updated",
       timer: 2000,
+      showConfirmButton: false,
+      customClass: {
+        popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+        title: "text-primary font-bold", // Title color
+      },
+      buttonsStyling: false, // Use your own button styles
     });
     dispatch(fetchMyCauldron());
   } catch (error) {
@@ -82,6 +99,11 @@ export const updatePotion = (potion) => async (dispatch) => {
       icon: "error",
       title: "Oops...",
       text: error?.response?.data?.message,
+      customClass: {
+        popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+        title: "text-danger font-bold", // Title color
+      },
+      buttonsStyling: false, // Use your own button styles
     });
   }
 };
@@ -98,6 +120,12 @@ export const deletePotion = (potion) => async (dispatch) => {
       icon: "success",
       title: "Your potion is deleted",
       timer: 2000,
+      showConfirmButton: false,
+      customClass: {
+        popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+        title: "text-primary font-bold", // Title color
+      },
+      buttonsStyling: false, // Use your own button styles
     });
     dispatch(fetchMyCauldron());
   } catch (error) {
@@ -106,6 +134,11 @@ export const deletePotion = (potion) => async (dispatch) => {
       icon: "error",
       title: "Oops...",
       text: error?.response?.data?.message,
+      customClass: {
+        popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+        title: "text-danger font-bold", // Title color
+      },
+      buttonsStyling: false, // Use your own button styles
     });
   }
 };

@@ -1,5 +1,6 @@
-import { FaXTwitter, FaInstagram } from "react-icons/fa6";
+import { FaInstagram, FaLinkedin } from "react-icons/fa6";
 import { BsGithub } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 export default function FooterPage() {
   return (
@@ -9,40 +10,40 @@ export default function FooterPage() {
     >
       <div className="container footer mx-auto flex flex-col items-center justify-between md:flex-row">
         {/* Copyright */}
-        <a
+        <Link
           href="https://github.com/FauzhanWahyudi"
           target="_blank"
           className="text-sm transition hover:text-secondary"
         >
           © 2024 PlotAlchemy - All right reserved
-        </a>
+        </Link>
 
         {/* Social Icons */}
         <div className="mt-4 flex gap-4 md:mt-0">
-          <a
+          <Link
             href="https://www.instagram.com/fauzhanwahyudi/"
             target="_blank"
             className="transition hover:text-secondary"
             aria-label="Instagram"
           >
             <FaInstagram size={24} />
-          </a>
-          <a
-            // target="_blank"
-            href="#"
+          </Link>
+          <Link
+            target="_blank"
+            to="https://www.linkedin.com/in/fauzhan-wahyudi/"
             className="transition hover:text-secondary"
             aria-label="Twitter"
           >
-            <FaXTwitter size={24} />
-          </a>
-          <a
+            <FaLinkedin size={24} />
+          </Link>
+          <Link
             target="_blank"
             href="https://github.com/FauzhanWahyudi"
             className="transition hover:text-secondary"
             aria-label="GitHub"
           >
             <BsGithub size={24} />
-          </a>
+          </Link>
         </div>
       </div>
     </footer>

@@ -34,7 +34,7 @@ export default function MyCauldronPage() {
   }, []);
 
   return (
-    <div className="flex items-center justify-center bg-base-100">
+    <div className="flex min-h-[80vh] items-center justify-center bg-base-100">
       <div className="my-4 w-full max-w-5xl overflow-auto rounded-lg bg-base-300 p-6 text-primary shadow-lg">
         {myCauldronsRedux.length > 0 ? (
           <>
@@ -48,16 +48,18 @@ export default function MyCauldronPage() {
                 {myCauldronsRedux[0]?.name}
               </h1>
               <Link to="/user/profile">
-                <FaRegEdit className="cursor-pointer text-2xl text-yellow-500" />
+                <FaRegEdit className="cursor-pointer text-2xl text-yellow-500 hover:text-yellow-800" />
               </Link>
             </div>
 
             {potions.length > 0 ? (
               potions.map((potion) => (
-                <div key={potion.id} className="my-4">
-                  <div className="rounded-lg bg-base-200 p-4 shadow-md">
-                    <p>{potion.recommendation}</p>
-                    <div className="mt-4 flex justify-center gap-4">
+                <div key={potion.id} className="my-4 flex justify-center">
+                  <div className="w-11/12 rounded-lg bg-base-200 p-4 shadow-md hover:scale-105">
+                    <p className="line-clamp-3 hover:line-clamp-none">
+                      {potion.recommendation}
+                    </p>
+                    <div className="mt-4 flex justify-end gap-4">
                       <button
                         className="badge badge-outline hover:font-extrabold hover:text-yellow-400"
                         onClick={() => {
@@ -76,7 +78,14 @@ export default function MyCauldronPage() {
                             text: "You won't be able to revert this!",
                             icon: "warning",
                             showCancelButton: true,
-                            confirmButtonText: "Yes, delete it!",
+                            confirmButtonText: "Delete",
+                            customClass: {
+                              popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+                              title: "text-primary font-bold", // Title color
+                              cancelButton: "btn btn-danger",
+                              confirmButton: "btn btn-primary mx-2",
+                            },
+                            buttonsStyling: false, // Use your own button styles
                           }).then((result) => {
                             if (result.isConfirmed) {
                               dispatch(deletePotion(potion));
@@ -123,7 +132,7 @@ export default function MyCauldronPage() {
             ></textarea>
             <div className="modal-action justify-center">
               <button
-                className="btn btn-warning"
+                className="btn btn-primary"
                 onClick={() => {
                   dispatch(
                     updatePotion({
@@ -140,7 +149,7 @@ export default function MyCauldronPage() {
                 Save Potion
               </button>
               <button
-                className="btn btn-error"
+                className="btn btn-danger"
                 onClick={() => dispatch(setOpenModal(false))}
               >
                 Cancel

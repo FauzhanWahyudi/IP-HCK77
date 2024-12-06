@@ -29,8 +29,6 @@ export default function HomePage() {
 
   useEffect(() => {
     dispatch(fetchGenres());
-    dispatch(fetchMyCauldron());
-    dispatch(fetchProfile());
   }, []);
 
   const handleSubmit = async (event) => {
@@ -45,6 +43,7 @@ export default function HomePage() {
   };
 
   const handleSavePotion = () => {
+    dispatch(fetchMyCauldron());
     const cauldronId = myCauldrons[0]?.id;
     dispatch(postPotion(recommendation.recommendation, genreId, cauldronId));
     dispatch(setOpenModal(false));
@@ -144,15 +143,12 @@ export default function HomePage() {
               </div>
             )}
             <div className="modal-action justify-center">
-              <button
-                onClick={handleSavePotion}
-                className="hover:btn-orange btn btn-warning"
-              >
+              <button onClick={handleSavePotion} className="btn btn-primary">
                 Save Potion
               </button>
               <button
                 onClick={() => dispatch(setOpenModal(false))}
-                className="btn-gray btn"
+                className="btn-danger btn"
               >
                 Continue
               </button>

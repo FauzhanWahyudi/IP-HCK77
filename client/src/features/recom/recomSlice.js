@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { serverInstance } from "../../helpers/axiosInstance";
 import Swal from "sweetalert2";
 import { setLoading } from "../loading/loadingSlice";
+import { setOpenModal } from "../openModal/openModal";
 const initialState = {
   value: {},
 };
@@ -32,12 +33,18 @@ export const getRecommendation = (synopsis, genre) => async (dispatch) => {
     dispatch(setRecommendation(data));
     dispatch(setLoading(false));
   } catch (error) {
+    dispatch(setOpenModal(false));
     console.log("ini error KKKKKKKKKKKKKKKKKK");
     console.log("🚀 ~ getRecommendation ~ error:", error);
     Swal.fire({
       icon: "error",
       title: "Oops...",
       text: error.response.data.message,
+      customClass: {
+        popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+        title: "text-danger font-bold", // Title color
+      },
+      buttonsStyling: false, // Use your own button styles
     });
   }
 };

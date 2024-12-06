@@ -41,6 +41,11 @@ export const fetchMyCauldron = () => async (dispatch) => {
       icon: "error",
       title: "Oops...",
       text: error.response.data.message,
+      customClass: {
+        popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+        title: "text-primary font-bold", // Title color
+      },
+      buttonsStyling: false, // Use your own button styles
     });
   }
 };
