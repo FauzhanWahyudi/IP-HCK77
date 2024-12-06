@@ -11,6 +11,7 @@ export default function FooterPage() {
         {/* Copyright */}
         <a
           href="https://github.com/FauzhanWahyudi"
+          target="_blank"
           className="text-sm transition hover:text-secondary"
         >
           © 2024 PlotAlchemy - All right reserved

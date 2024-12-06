@@ -31,7 +31,7 @@ export default function HomePage() {
     dispatch(fetchGenres());
     dispatch(fetchMyCauldron());
     dispatch(fetchProfile());
-  }, [dispatch]);
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

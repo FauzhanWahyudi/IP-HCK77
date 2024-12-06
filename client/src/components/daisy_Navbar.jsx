@@ -1,6 +1,8 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function NavigationBar() {
+  const profileRedux = useSelector((state) => state.profileReducer.value);
   return (
     <nav className="sticky top-0 z-50">
       <div className="navbar bg-base-300 shadow-md">
@@ -43,14 +45,6 @@ export default function NavigationBar() {
               </Link>
             </li>
             <li>
-              <Link
-                className="text-base-content hover:text-secondary"
-                to="/user/profile"
-              >
-                Profile
-              </Link>
-            </li>
-            <li>
               <a
                 href="#footer"
                 className="text-base-content hover:text-secondary"
@@ -64,11 +58,29 @@ export default function NavigationBar() {
         {/* Login/Logout */}
         <div className="navbar-end">
           {localStorage.getItem("access_token") ? (
-            <Link className="text-error hover:text-red-600" to="/logout">
-              Logout
-            </Link>
+            <details className="dropdown">
+              <summary className="btn btn-circle m-1 border-none">
+                <img src={profileRedux.profilePicture} alt="" className="w-9 h-8 rounded-full object-cover"/>
+              </summary>
+              <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] right-2 w-auto p-2 shadow">
+                  <li><Link to={"#"} className="font-bold text-info btn-disabled">{profileRedux.fullName}</Link></li>
+                  <li>
+                      <Link
+                        className="text-base-content hover:text-secondary"
+                        to="/user/profile"
+                      >
+                        Profile
+                      </Link>
+                  </li>
+                  <li>            
+                        <Link className="text-error  hover:text-red-60git0" to="/logout">
+                          Logout
+                        </Link>
+                  </li>
+                </ul>
+                </details>
           ) : (
-            <Link className="btn btn-primary" to="/login/google">
+            <Link className="btn btn-ghost" to="/login/google">
               Sign In
             </Link>
           )}
