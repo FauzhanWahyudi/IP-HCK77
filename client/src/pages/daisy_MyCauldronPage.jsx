@@ -89,11 +89,6 @@ export default function MyCauldronPage() {
                           }).then((result) => {
                             if (result.isConfirmed) {
                               dispatch(deletePotion(potion));
-                              Swal.fire(
-                                "Deleted!",
-                                "Potion deleted.",
-                                "success",
-                              );
                             }
                           });
                         }}
