@@ -1,22 +1,20 @@
-import "./App.css";
 import {
   createBrowserRouter,
   redirect,
   RouterProvider,
 } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import Layout from "./pages/Layout";
-// import LoginPage from "./pages/LoginPage";
-// import HomePage from "./pages/HomePage";
-// import GenresPage from "./pages/GenresPage";
-// import ProfilePage from "./pages/ProfilePage";
-// import MyCauldronPage from "./pages/MyCauldronPage";
-import HomePage from "./pages/New_HomePage";
-import GenresPage from "./pages/New_GenresPage";
-import MyCauldronPage from "./pages/New_MyCauldronPage";
-import ProfilePage from "./pages/New_Profile_Page";
-import LoginPage from "./pages/New_LoginPage";
+// import HomePage from "./pages/New_HomePage";
+import GenresPage from "./pages/daisy_GenresPage";
+import MyCauldronPage from "./pages/daisy_MyCauldronPage";
+import ProfilePage from "./pages/daisy_Profile_Page";
+import LoginPage from "./pages/daisy_LoginPage";
+import HomePage from "./pages/daisy_HomePage";
+import Swal from "sweetalert2";
+const clientId = import.meta.env.VITE_Google_OAuth_Client_ID;
 const router = createBrowserRouter([
   {
     path: "/",
@@ -66,6 +64,16 @@ const router = createBrowserRouter([
     path: "/logout",
     loader: () => {
       localStorage.clear();
+      Swal.fire({
+        icon: "success",
+        title: "You're logging out",
+        timer: 2000,
+        showConfirmButton: false,
+        customClass: {
+          popup: "bg-base-100 text-primary shadow-lg", // Modal background and text color
+          title: "text-primary font-bold", // Title color
+        },
+      });
       return redirect("/login/google");
     },
   },
@@ -74,7 +82,9 @@ function App() {
   return (
     <>
       <Provider store={store}>
-        <RouterProvider router={router} />
+        <GoogleOAuthProvider clientId={clientId}>
+          <RouterProvider router={router} />
+        </GoogleOAuthProvider>
       </Provider>
     </>
   );
